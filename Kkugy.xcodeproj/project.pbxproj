@@ -17,6 +17,7 @@
 		35A478942BC68AB9002E3E0D /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A478932BC68AB9002E3E0D /* SummaryViewController.swift */; };
 		35D3E56A2BC7A38500487F7C /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */; };
 		35D3E56C2BC7A8FA00487F7C /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */; };
+		35D3E56E2BC7D20700487F7C /* RoundedTranslucentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		35A478932BC68AB9002E3E0D /* SummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
 		35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTranslucentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			children = (
 				35D3E5682BC7A33400487F7C /* Extensions */,
 				35A4787E2BC67A4E002E3E0D /* Main.storyboard */,
+				35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				35A4787B2BC67A4E002E3E0D /* SceneDelegate.swift in Sources */,
 				35D3E56C2BC7A8FA00487F7C /* TabBarViewController.swift in Sources */,
 				35D3E56A2BC7A38500487F7C /* UIViewExtensions.swift in Sources */,
+				35D3E56E2BC7D20700487F7C /* RoundedTranslucentView.swift in Sources */,
 				35A478942BC68AB9002E3E0D /* SummaryViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

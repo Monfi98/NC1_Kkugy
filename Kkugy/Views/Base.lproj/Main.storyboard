@@ -14,26 +14,17 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7IF-O7-Dvm">
-                                <rect key="frame" x="0.0" y="155" width="393" height="614"/>
-                            </scrollView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="7IF-O7-Dvm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="KwU-2a-H0g"/>
-                            <constraint firstItem="7IF-O7-Dvm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="aG8-v0-lW0"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7IF-O7-Dvm" secondAttribute="trailing" id="rsd-Ik-PFr"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="7IF-O7-Dvm" secondAttribute="bottom" id="yi1-DJ-60o"/>
-                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="메인" image="house" catalog="system" selectedImage="house.fill" id="58r-P7-Cl9"/>
-                    <navigationItem key="navigationItem" title="최근대화" id="5hc-XP-D6q"/>
+                    <navigationItem key="navigationItem" title="최근대화" id="5hc-XP-D6q">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.pencil" catalog="system" id="WeK-KZ-FtN"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="488" y="956"/>
+            <point key="canvasLocation" x="-1816" y="982"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="nPi-wg-Zmh">
@@ -61,29 +52,15 @@
                     <view key="view" contentMode="scaleToFill" id="eXN-hN-aCh">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d9z-nl-tdz">
-                                <rect key="frame" x="0.0" y="155" width="393" height="614"/>
-                            </scrollView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vvA-S6-fr1"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="d9z-nl-tdz" firstAttribute="leading" secondItem="vvA-S6-fr1" secondAttribute="leading" id="2bu-wc-HbW"/>
-                            <constraint firstItem="d9z-nl-tdz" firstAttribute="top" secondItem="vvA-S6-fr1" secondAttribute="top" id="DjQ-Ia-5Nv"/>
-                            <constraint firstItem="vvA-S6-fr1" firstAttribute="bottom" secondItem="d9z-nl-tdz" secondAttribute="bottom" id="Ffq-a3-0iM"/>
-                            <constraint firstItem="vvA-S6-fr1" firstAttribute="trailing" secondItem="d9z-nl-tdz" secondAttribute="trailing" id="ywd-5T-HfE"/>
-                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="요약" image="list.bullet.rectangle.portrait" catalog="system" selectedImage="list.bullet.rectangle.portrait.fill" id="YVJ-u6-2VB"/>
                     <navigationItem key="navigationItem" title="요약" id="JCq-Iu-qbE"/>
-                    <connections>
-                        <outlet property="scrollView" destination="d9z-nl-tdz" id="qdx-s8-k2k"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EJc-sJ-zkb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-585" y="956"/>
+            <point key="canvasLocation" x="985" y="942"/>
         </scene>
         <!--Item-->
         <scene sceneID="OGq-QN-D7P">
@@ -100,7 +77,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o8g-90-YHJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-584" y="237"/>
+            <point key="canvasLocation" x="987" y="237"/>
         </scene>
         <!--Item-->
         <scene sceneID="xFE-S2-3h6">
@@ -118,7 +95,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VY7-Q2-6Sm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="488" y="237"/>
+            <point key="canvasLocation" x="-1816" y="237"/>
         </scene>
     </scenes>
     <resources>
@@ -126,5 +103,6 @@
         <image name="house.fill" catalog="system" width="128" height="104"/>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
         <image name="list.bullet.rectangle.portrait.fill" catalog="system" width="115" height="128"/>
+        <image name="square.and.pencil" catalog="system" width="128" height="121"/>
     </resources>
 </document>
