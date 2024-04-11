@@ -8,12 +8,18 @@
 import UIKit
 
 class SummaryViewController: UIViewController {
-
-    // MARK: - Override
+    // MARK: - Properties
+    
+    
+    // MARK: - IBOutlets
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        view.setGradientBackground()
     }
     
     // MARK: - Function

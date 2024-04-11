@@ -8,12 +8,21 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    // MARK: - Properties
     
+    
+    // MARK: - IBOutlets
+    
+
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        view.setGradientBackground()
     }
-
     
+    // MARK: - Function
+
 }
 
+// MARK: - Extension
