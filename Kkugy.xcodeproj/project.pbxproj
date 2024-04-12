@@ -18,6 +18,8 @@
 		35D3E56A2BC7A38500487F7C /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */; };
 		35D3E56C2BC7A8FA00487F7C /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */; };
 		35D3E56E2BC7D20700487F7C /* RoundedTranslucentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */; };
+		35D3E5702BC8070600487F7C /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56F2BC8070600487F7C /* ChatViewController.swift */; };
+		35D3E5722BC8076D00487F7C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E5712BC8076D00487F7C /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTranslucentView.swift; sourceTree = "<group>"; };
+		35D3E56F2BC8070600487F7C /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		35D3E5712BC8076D00487F7C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +114,8 @@
 				35A4787C2BC67A4E002E3E0D /* MainViewController.swift */,
 				35A478932BC68AB9002E3E0D /* SummaryViewController.swift */,
 				35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */,
+				35D3E56F2BC8070600487F7C /* ChatViewController.swift */,
+				35D3E5712BC8076D00487F7C /* DetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -200,6 +206,8 @@
 				35D3E56C2BC7A8FA00487F7C /* TabBarViewController.swift in Sources */,
 				35D3E56A2BC7A38500487F7C /* UIViewExtensions.swift in Sources */,
 				35D3E56E2BC7D20700487F7C /* RoundedTranslucentView.swift in Sources */,
+				35D3E5722BC8076D00487F7C /* DetailViewController.swift in Sources */,
+				35D3E5702BC8070600487F7C /* ChatViewController.swift in Sources */,
 				35A478942BC68AB9002E3E0D /* SummaryViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -18,24 +18,17 @@ class SummaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.setGradientBackground()
-        setUpScrollView()
-        addRectanglesToScrollView()
+        initializeSetup()
     }
     
     // MARK: - Function
-    func setUpScrollView() {
+    func initializeSetup() {
+        view.setGradientBackground()
+        
         scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(scrollView)
+        self.view.setupScrollView(scrollView)
         
-        
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
+        addRectanglesToScrollView()
     }
     
     func addRectanglesToScrollView() {

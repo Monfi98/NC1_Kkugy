@@ -19,65 +19,104 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.setGradientBackground()
-        setUpScrollView()
-        addRectanglesToScrollView()
+        
+        initializeSetup()
     }
 
     
     // MARK: - Function
-    func setUpScrollView() {
+    func initializeSetup() {
+        view.setGradientBackground()
+        
         scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(scrollView)
+        self.view.setupScrollView(scrollView)
         
-        
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
+        addToScrollView()
     }
     
-    func addRectanglesToScrollView() {
-        // 첫 번째 사각형
-        let rectangle1 = UIView()
-        rectangle1.backgroundColor = .red
-        rectangle1.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(rectangle1)
-        print(rectangle1.frame)
+    
+    func addToScrollView() {
+    
+        // 첫 번째 rectangle
+        let rectangle = RoundedTranslucentView()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        
+        rectangle.addGestureRecognizer(tapGesture)
+        rectangle.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(rectangle)
+        
+        // 두번째 제목
+        let textLabel = UILabel()
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.text = "History"
+        textLabel.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
+        textLabel.textAlignment = .left
+        scrollView.addSubview(textLabel)
+        
+        
+        let searchBar = UISearchBar()
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.backgroundImage = UIImage()
+        scrollView.addSubview(searchBar)
+
+       
         
         // 두 번째 사각형
-        let rectangle2 = UIView()
-        rectangle2.backgroundColor = .green
+        let rectangle2 = RoundedTranslucentView()
         rectangle2.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(rectangle2)
         
         // 세 번째 사각형
-        let rectangle3 = UIView()
-        rectangle3.backgroundColor = .blue
+        let rectangle3 = RoundedTranslucentView()
         rectangle3.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(rectangle3)
         
         NSLayoutConstraint.activate([
-            rectangle1.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
-            rectangle1.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 0),
-            rectangle1.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: 0),
-            rectangle1.heightAnchor.constraint(equalToConstant: 250),
             
-            rectangle2.topAnchor.constraint(equalTo: rectangle1.bottomAnchor, constant: 20),
-            rectangle2.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 0),
-            rectangle2.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: 0),
+            rectangle.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 10),
+            rectangle.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
+            rectangle.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
+            rectangle.heightAnchor.constraint(equalToConstant: 140),
+            
+            textLabel.topAnchor.constraint(equalTo: rectangle.bottomAnchor, constant: 40),
+            textLabel.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
+            textLabel.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
+            
+            searchBar.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 10),
+            searchBar.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 8),
+            searchBar.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -8),
+            
+            
+            rectangle2.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
+            rectangle2.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
+            rectangle2.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
             rectangle2.heightAnchor.constraint(equalToConstant: 250),
             
             rectangle3.topAnchor.constraint(equalTo: rectangle2.bottomAnchor, constant: 20),
-            rectangle3.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 0),
-            rectangle3.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: 0),
+            rectangle3.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
+            rectangle3.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
             rectangle3.heightAnchor.constraint(equalToConstant: 250),
             rectangle3.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20), // 마지막 요소의 bottomAnchor를 scrollView의 contentLayoutGuide의 bottomAnchor에 연결
         ])
     }
+    
+    // MARK: - @IBAction Function
+    @IBAction func didTapBarButton(_ sender: UIBarButtonItem) {
+        let ChatVC = ChatViewController()
+        ChatVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(ChatVC, animated: true)
+    }
+    
+    
+    // MARK: - @obj Function
+    @objc func viewTapped() {
+        let ChatVC = ChatViewController()
+        ChatVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(ChatVC, animated: true)
+    }
 }
 
 // MARK: - Extension
+
+
+// rectangle3.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20),

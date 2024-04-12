@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,13 +19,32 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="메인" image="house" catalog="system" selectedImage="house.fill" id="58r-P7-Cl9"/>
-                    <navigationItem key="navigationItem" title="최근대화" id="5hc-XP-D6q">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.pencil" catalog="system" id="WeK-KZ-FtN"/>
+                    <navigationItem key="navigationItem" title="최근 대화" id="5hc-XP-D6q">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.pencil" catalog="system" id="WeK-KZ-FtN">
+                            <connections>
+                                <action selector="didTapBarButton:" destination="BYZ-38-t0r" id="nPo-YF-IZd"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1816" y="982"/>
+            <point key="canvasLocation" x="1772" y="-300"/>
+        </scene>
+        <!--Chat View Controller-->
+        <scene sceneID="CeH-5q-BgE">
+            <objects>
+                <viewController id="ahb-v1-AlP" customClass="ChatViewController" customModule="Kkugy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="USP-9s-gL6">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="FUs-tC-WNE"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i0c-q3-mGp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2523" y="-300"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="nPi-wg-Zmh">
@@ -60,7 +80,22 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EJc-sJ-zkb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="985" y="942"/>
+            <point key="canvasLocation" x="1772" y="-1028"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="UVx-SR-0F6">
+            <objects>
+                <viewController id="kWm-Wn-daA" customClass="DetailViewController" customModule="Kkugy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XYM-x2-bNZ">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="pg3-s0-g4e"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VtW-vJ-oqI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2523" y="-1028"/>
         </scene>
         <!--Item-->
         <scene sceneID="OGq-QN-D7P">
@@ -77,7 +112,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o8g-90-YHJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="987" y="237"/>
+            <point key="canvasLocation" x="984" y="-1028"/>
         </scene>
         <!--Item-->
         <scene sceneID="xFE-S2-3h6">
@@ -95,7 +130,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VY7-Q2-6Sm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1816" y="237"/>
+            <point key="canvasLocation" x="984" y="-300"/>
         </scene>
     </scenes>
     <resources>
@@ -104,5 +139,8 @@
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
         <image name="list.bullet.rectangle.portrait.fill" catalog="system" width="115" height="128"/>
         <image name="square.and.pencil" catalog="system" width="128" height="121"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

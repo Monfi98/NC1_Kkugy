@@ -20,10 +20,15 @@ class RoundedTranslucentView: UIView {
     }
     
     private func setupView() {
-//        self.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        self.layer.cornerRadius = 10
-        self.clipsToBounds = true
+        self.layer.cornerRadius = 15
+        
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 2) // 그림자의 방향 및 거리
+        self.layer.shadowRadius = 4 // 그림자의 퍼짐 정도
+        self.layer.shadowOpacity = 0.1 // 그림자의 투명도
+        
+        self.clipsToBounds = false
     }
     
 }
