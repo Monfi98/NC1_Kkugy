@@ -11,10 +11,12 @@
 		35A4787B2BC67A4E002E3E0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A4787A2BC67A4E002E3E0D /* SceneDelegate.swift */; };
 		35A4787D2BC67A4E002E3E0D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A4787C2BC67A4E002E3E0D /* MainViewController.swift */; };
 		35A478802BC67A4E002E3E0D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35A4787E2BC67A4E002E3E0D /* Main.storyboard */; };
-		35A478832BC67A4E002E3E0D /* Kkugy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35A478812BC67A4E002E3E0D /* Kkugy.xcdatamodeld */; };
+		35A478832BC67A4E002E3E0D /* Models.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35A478812BC67A4E002E3E0D /* Models.xcdatamodeld */; };
 		35A478852BC67A4F002E3E0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35A478842BC67A4F002E3E0D /* Assets.xcassets */; };
 		35A478882BC67A4F002E3E0D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35A478862BC67A4F002E3E0D /* LaunchScreen.storyboard */; };
 		35A478942BC68AB9002E3E0D /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A478932BC68AB9002E3E0D /* SummaryViewController.swift */; };
+		35B4E7A22BC8E64100D8B608 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7A12BC8E64100D8B608 /* MessageCell.swift */; };
+		35B4E7A42BCA059F00D8B608 /* MessageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7A32BCA059F00D8B608 /* MessageModels.swift */; };
 		35D3E56A2BC7A38500487F7C /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */; };
 		35D3E56C2BC7A8FA00487F7C /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */; };
 		35D3E56E2BC7D20700487F7C /* RoundedTranslucentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */; };
@@ -33,6 +35,8 @@
 		35A478872BC67A4F002E3E0D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		35A478892BC67A4F002E3E0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35A478932BC68AB9002E3E0D /* SummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
+		35B4E7A12BC8E64100D8B608 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		35B4E7A32BCA059F00D8B608 /* MessageModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModels.swift; sourceTree = "<group>"; };
 		35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTranslucentView.swift; sourceTree = "<group>"; };
@@ -79,7 +83,6 @@
 				35A478842BC67A4F002E3E0D /* Assets.xcassets */,
 				35A478862BC67A4F002E3E0D /* LaunchScreen.storyboard */,
 				35A478892BC67A4F002E3E0D /* Info.plist */,
-				35A478812BC67A4E002E3E0D /* Kkugy.xcdatamodeld */,
 			);
 			path = Kkugy;
 			sourceTree = "<group>";
@@ -90,6 +93,7 @@
 				35D3E5682BC7A33400487F7C /* Extensions */,
 				35A4787E2BC67A4E002E3E0D /* Main.storyboard */,
 				35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */,
+				35B4E7A12BC8E64100D8B608 /* MessageCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -97,6 +101,8 @@
 		35A478902BC67A6F002E3E0D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				35A478812BC67A4E002E3E0D /* Models.xcdatamodeld */,
+				35B4E7A32BCA059F00D8B608 /* MessageModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -199,8 +205,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35B4E7A22BC8E64100D8B608 /* MessageCell.swift in Sources */,
 				35A4787D2BC67A4E002E3E0D /* MainViewController.swift in Sources */,
-				35A478832BC67A4E002E3E0D /* Kkugy.xcdatamodeld in Sources */,
+				35A478832BC67A4E002E3E0D /* Models.xcdatamodeld in Sources */,
 				35A478792BC67A4E002E3E0D /* AppDelegate.swift in Sources */,
 				35A4787B2BC67A4E002E3E0D /* SceneDelegate.swift in Sources */,
 				35D3E56C2BC7A8FA00487F7C /* TabBarViewController.swift in Sources */,
@@ -209,6 +216,7 @@
 				35D3E5722BC8076D00487F7C /* DetailViewController.swift in Sources */,
 				35D3E5702BC8070600487F7C /* ChatViewController.swift in Sources */,
 				35A478942BC68AB9002E3E0D /* SummaryViewController.swift in Sources */,
+				35B4E7A42BCA059F00D8B608 /* MessageModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,13 +441,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		35A478812BC67A4E002E3E0D /* Kkugy.xcdatamodeld */ = {
+		35A478812BC67A4E002E3E0D /* Models.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				35A478822BC67A4E002E3E0D /* Kkugy.xcdatamodel */,
 			);
 			currentVersion = 35A478822BC67A4E002E3E0D /* Kkugy.xcdatamodel */;
-			path = Kkugy.xcdatamodeld;
+			path = Models.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

@@ -102,17 +102,21 @@ class MainViewController: UIViewController {
     
     // MARK: - @IBAction Function
     @IBAction func didTapBarButton(_ sender: UIBarButtonItem) {
-        let ChatVC = ChatViewController()
-        ChatVC.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(ChatVC, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let chatVC = storyboard.instantiateViewController(withIdentifier: "ChatView") as? ChatViewController {
+            chatVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(chatVC, animated: true)
+        }
     }
     
     
     // MARK: - @obj Function
     @objc func viewTapped() {
-        let ChatVC = ChatViewController()
-        ChatVC.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(ChatVC, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let chatVC = storyboard.instantiateViewController(withIdentifier: "ChatView") as? ChatViewController {
+            chatVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(chatVC, animated: true)
+        }
     }
 }
 

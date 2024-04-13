@@ -32,19 +32,19 @@
             <point key="canvasLocation" x="1772" y="-300"/>
         </scene>
         <!--Chat View Controller-->
-        <scene sceneID="CeH-5q-BgE">
+        <scene sceneID="a2w-Ng-rbw">
             <objects>
-                <viewController id="ahb-v1-AlP" customClass="ChatViewController" customModule="Kkugy" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="USP-9s-gL6">
+                <viewController storyboardIdentifier="ChatView" id="fj5-mP-Qce" customClass="ChatViewController" customModule="Kkugy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RZG-NV-lwJ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="FUs-tC-WNE"/>
+                        <viewLayoutGuide key="safeArea" id="Fk3-gK-beF"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="i0c-q3-mGp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XDm-et-RMc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2523" y="-300"/>
+            <point key="canvasLocation" x="2506" y="-300"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="nPi-wg-Zmh">

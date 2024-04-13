@@ -10,7 +10,7 @@ import UIKit
 
 extension UIView {
     
-    // Default Gradient Background View
+    // Default Gradient Background
     func setGradientBackground() {
         guard let BackgroundColor1 = UIColor(named: "BackgroundColor1") else { return }
         guard let BackgroundColor2 = UIColor(named: "BackgroundColor2") else { return }
@@ -19,6 +19,15 @@ extension UIView {
         gradientLayer.frame = self.bounds
         gradientLayer.colors = [BackgroundColor1.cgColor, BackgroundColor2.cgColor]
         self.layer.addSublayer(gradientLayer)
+    }
+    
+    // Translucent Background
+    func setTranslucentBackground() {
+        let overlay = CALayer()
+        overlay.frame = self.bounds
+        overlay.backgroundColor = UIColor.white.cgColor
+        overlay.opacity = 0.2
+        self.layer.addSublayer(overlay)
     }
     
     // Scroll View
