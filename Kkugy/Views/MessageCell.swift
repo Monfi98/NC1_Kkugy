@@ -11,13 +11,12 @@ class MessageCell: UITableViewCell {
     let messageBackgroundView = UIView()
     let timeLabel = UILabel()
     
-    // 제약 조건 속성
     var leadingConstraint: NSLayoutConstraint?
     var trailingConstraint: NSLayoutConstraint?
     var timeLabelConstraint: NSLayoutConstraint?
     var timeLabelBottomConstraint: NSLayoutConstraint?
-
-
+    
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -32,7 +31,7 @@ class MessageCell: UITableViewCell {
         messageBackgroundView.layer.cornerRadius = 12
         messageBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(messageBackgroundView)
-
+        
         messageLabel.numberOfLines = 0
         messageLabel.font = UIFont.systemFont(ofSize: 15)
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -41,10 +40,16 @@ class MessageCell: UITableViewCell {
         timeLabel.font = UIFont.systemFont(ofSize: 10)
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(timeLabel)
-
+        
+        let maxWidth = UIScreen.main.bounds.width * 0.6
+        
         NSLayoutConstraint.activate([
             messageBackgroundView.topAnchor.constraint(equalTo: topAnchor, constant: 3),
             messageBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -3),
+            
+            messageBackgroundView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 20),
+            messageBackgroundView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -20),
+            messageBackgroundView.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth),
             
             messageLabel.topAnchor.constraint(equalTo: messageBackgroundView.topAnchor, constant: 10),
             messageLabel.bottomAnchor.constraint(equalTo: messageBackgroundView.bottomAnchor, constant: -10),
@@ -82,18 +87,18 @@ class MessageCell: UITableViewCell {
             trailingConstraint?.constant = -100
             timeLabelConstraint = timeLabel.leadingAnchor.constraint(equalTo: messageBackgroundView.trailingAnchor, constant: 5)
             timeLabelBottomConstraint = timeLabel.bottomAnchor.constraint(equalTo: messageBackgroundView.bottomAnchor)
-
+            
         }
         
         timeLabelConstraint?.isActive = true
         timeLabelBottomConstraint?.isActive = true
-
+        
     }
     
     private func formatTime(_ date: Date) -> String {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "a h시 m분"
-            formatter.locale = Locale(identifier: "ko_KR")
-            return formatter.string(from: date)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "a h시 m분"
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter.string(from: date)
     }
 }

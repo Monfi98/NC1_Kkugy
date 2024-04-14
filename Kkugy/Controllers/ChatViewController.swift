@@ -136,7 +136,7 @@ extension ChatViewController: UITextFieldDelegate {
         newMessage.date = Date()
         newMessage.isSender = true
         //newMessage.isSender = false
-        
+
         do {
             try context.save()
             messages.append(newMessage)
@@ -145,8 +145,6 @@ extension ChatViewController: UITextFieldDelegate {
         } catch {
             print("Failed to save message: \(error)")
         }
-        //textField.resignFirstResponder()
-        
         scrollToBottom(animated: true)
         return true
     }
