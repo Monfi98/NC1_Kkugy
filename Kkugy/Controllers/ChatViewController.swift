@@ -13,9 +13,11 @@ class ChatViewController: UIViewController {
     // MARK: - Properties
     private var tableView: UITableView!
     private var messageTextField: UITextField!
+    
     private var bottomTextFieldConstraint: NSLayoutConstraint!
     
     var messages: [Message] = []
+    var sections: [MessageSection] = []
     var context: NSManagedObjectContext! = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     
@@ -31,16 +33,28 @@ class ChatViewController: UIViewController {
         loadMessages()
     }
     
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        navigationController?.setNavigationBarHidden(true, animated: animated)
+//    }
+
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        navigationController?.setNavigationBarHidden(false, animated: animated)
+//    }
+    
+    
     // MARK: - Function
     func setupUI() {
         view.setGradientBackground()
         view.setTranslucentBackground()
         
+        
         tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(MessageCell.self, forCellReuseIdentifier: "MessageCell")
- 
+
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         
@@ -82,16 +96,39 @@ class ChatViewController: UIViewController {
         request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
         do {
             messages = try context.fetch(request)
-            tableView.reloadData()
+            groupMessagesByDate()
+            // tableView.reloadData()
         } catch {
             print("Failed to fetch messages: \(error)")
         }
     }
     
+    func groupMessagesByDate() {
+        sections.removeAll()  // 섹션 배열을 초기화
+        var currentSection: MessageSection?
+        
+        for message in messages {
+            if let section = currentSection, Calendar.current.isDate(section.date, inSameDayAs: message.date!) {
+                currentSection?.messages.append(message)
+            } else {
+                if let section = currentSection {
+                    sections.append(section)
+                }
+                currentSection = MessageSection(date: message.date!, messages: [message])
+            }
+        }
+        if let section = currentSection {
+            sections.append(section)
+        }
+        tableView.reloadData()
+    }
+    
     func scrollToBottom(animated: Bool) {
-        let lastRow = tableView.numberOfRows(inSection: 0) - 1
+        guard !sections.isEmpty else { return }
+        let lastSection = sections.count - 1
+        let lastRow = sections[lastSection].messages.count - 1
         if lastRow >= 0 {
-            let indexPath = IndexPath(row: lastRow, section: 0)
+            let indexPath = IndexPath(row: lastRow, section: lastSection)
             tableView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
         }
     }
@@ -140,7 +177,8 @@ extension ChatViewController: UITextFieldDelegate {
         do {
             try context.save()
             messages.append(newMessage)
-            tableView.reloadData()
+            groupMessagesByDate()
+            //tableView.reloadData()
             messageTextField.text = ""
         } catch {
             print("Failed to save message: \(error)")
@@ -152,17 +190,28 @@ extension ChatViewController: UITextFieldDelegate {
 
 
 extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        return sections[section].messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath) as! MessageCell
-        let message = messages[indexPath.row]
-        let nextMssageSameMinute = indexPath.row < messages.count - 1 && Calendar.current.isDate(messages[indexPath.row].date!, equalTo: messages[indexPath.row + 1].date!, toGranularity: .minute)
+        let message = sections[indexPath.section].messages[indexPath.row]
+        let nextMssageSameMinute = (indexPath.row < sections[indexPath.section].messages.count - 1) && Calendar.current.isDate(message.date!, equalTo: sections[indexPath.section].messages[indexPath.row + 1].date!, toGranularity: .minute)
         
         cell.configure(with: message.text ?? "", date: message.date!, isSender: message.isSender, showTime: !nextMssageSameMinute)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter.string(from: sections[section].date)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
