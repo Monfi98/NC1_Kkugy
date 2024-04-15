@@ -1,0 +1,6 @@
+framework module Pods_Kkugy {
+  umbrella header "Pods-Kkugy-umbrella.h"
+
+  export *
+  module * { export * }
+}
