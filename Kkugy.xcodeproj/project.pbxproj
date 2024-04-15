@@ -19,6 +19,7 @@
 		35B4E7A42BCA059F00D8B608 /* MessageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7A32BCA059F00D8B608 /* MessageModels.swift */; };
 		35B4E7A62BCCC0BA00D8B608 /* CenteredSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7A52BCCC0BA00D8B608 /* CenteredSectionHeaderView.swift */; };
 		35B4E7A82BCCC42F00D8B608 /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7A72BCCC42F00D8B608 /* MessageInputView.swift */; };
+		35B4E7AA2BCCE81200D8B608 /* ChatNavigationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7A92BCCE81200D8B608 /* ChatNavigationHeaderView.swift */; };
 		35D3E56A2BC7A38500487F7C /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */; };
 		35D3E56C2BC7A8FA00487F7C /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */; };
 		35D3E56E2BC7D20700487F7C /* RoundedTranslucentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */; };
@@ -41,6 +42,7 @@
 		35B4E7A32BCA059F00D8B608 /* MessageModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModels.swift; sourceTree = "<group>"; };
 		35B4E7A52BCCC0BA00D8B608 /* CenteredSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenteredSectionHeaderView.swift; sourceTree = "<group>"; };
 		35B4E7A72BCCC42F00D8B608 /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
+		35B4E7A92BCCE81200D8B608 /* ChatNavigationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNavigationHeaderView.swift; sourceTree = "<group>"; };
 		35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTranslucentView.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				35B4E7A12BC8E64100D8B608 /* MessageCell.swift */,
 				35B4E7A52BCCC0BA00D8B608 /* CenteredSectionHeaderView.swift */,
 				35B4E7A72BCCC42F00D8B608 /* MessageInputView.swift */,
+				35B4E7A92BCCE81200D8B608 /* ChatNavigationHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -215,6 +218,7 @@
 				35B4E7A82BCCC42F00D8B608 /* MessageInputView.swift in Sources */,
 				35A4787D2BC67A4E002E3E0D /* MainViewController.swift in Sources */,
 				35A478832BC67A4E002E3E0D /* Models.xcdatamodeld in Sources */,
+				35B4E7AA2BCCE81200D8B608 /* ChatNavigationHeaderView.swift in Sources */,
 				35A478792BC67A4E002E3E0D /* AppDelegate.swift in Sources */,
 				35A4787B2BC67A4E002E3E0D /* SceneDelegate.swift in Sources */,
 				35D3E56C2BC7A8FA00487F7C /* TabBarViewController.swift in Sources */,

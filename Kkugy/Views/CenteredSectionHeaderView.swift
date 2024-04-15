@@ -23,7 +23,6 @@ class CenteredSectionHeaderView: UIView {
     private func setupView() {
         titleLabel.textAlignment = .center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = UIColor.gray
         titleLabel.font = UIFont.systemFont(ofSize: 14)
         addSubview(titleLabel)
         

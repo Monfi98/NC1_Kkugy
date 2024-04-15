@@ -13,15 +13,13 @@ class ChatViewController: UIViewController {
     // MARK: - Properties
     private var tableView: UITableView!
     private var messageTextField: UITextField!
+    private var navigationBar: ChatNavigationHeaderView!
     
     private var bottomTextFieldConstraint: NSLayoutConstraint!
     
     var messages: [Message] = []
     var sections: [MessageSection] = []
     var context: NSManagedObjectContext! = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-    
-    // MARK: - IBOutlets
     
     
     // MARK: - LifeCycle
@@ -31,17 +29,18 @@ class ChatViewController: UIViewController {
         setupUI()
         setupKeyboardNotifications()
         loadMessages()
+        scrollToBottom(animated: false)
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        navigationController?.setNavigationBarHidden(true, animated: animated)
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
 
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        navigationController?.setNavigationBarHidden(false, animated: animated)
-//    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
     
     
     // MARK: - Function
@@ -49,6 +48,13 @@ class ChatViewController: UIViewController {
         view.setGradientBackground()
         view.setTranslucentBackground()
         
+        navigationBar = ChatNavigationHeaderView()
+        navigationBar.translatesAutoresizingMaskIntoConstraints = false
+        navigationBar.backButtonAction = { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
+        view.addSubview(navigationBar)
         
         tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
@@ -61,33 +67,32 @@ class ChatViewController: UIViewController {
         tableView.backgroundColor = UIColor.clear
         tableView.separatorStyle = .none
         
-//        messageTextField = UITextField()
-//        messageTextField.delegate = self
-//        messageTextField.placeholder = "메시지를 입력해주세요."
-//        messageTextField.borderStyle = .roundedRect
-//        messageTextField.returnKeyType = .send
-//        messageTextField.autocorrectionType = .no
-//        messageTextField.spellCheckingType = .no
-//        messageTextField.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(messageTextField)
-        
         let messageInputView = MessageInputView()
         messageInputView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(messageInputView)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            navigationBar.heightAnchor.constraint(equalToConstant: 50),
+            
+            tableView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             messageInputView.topAnchor.constraint(equalTo: tableView.bottomAnchor),
             messageInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             messageInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            messageInputView.heightAnchor.constraint(equalToConstant: 50)
+            messageInputView.heightAnchor.constraint(equalToConstant: 40)
         ])
         
         bottomTextFieldConstraint = messageInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10)
         bottomTextFieldConstraint.isActive = true
+        
+        messageInputView.onSend = { [weak self] messageText in
+            self?.sendNewMessage(text: messageText)
+        }
     }
     
     func setupKeyboardNotifications() {
@@ -102,14 +107,13 @@ class ChatViewController: UIViewController {
         do {
             messages = try context.fetch(request)
             groupMessagesByDate()
-            // tableView.reloadData()
         } catch {
             print("Failed to fetch messages: \(error)")
         }
     }
     
     func groupMessagesByDate() {
-        sections.removeAll()  // 섹션 배열을 초기화
+        sections.removeAll()
         var currentSection: MessageSection?
         
         for message in messages {
@@ -126,6 +130,22 @@ class ChatViewController: UIViewController {
             sections.append(section)
         }
         tableView.reloadData()
+    }
+    
+    func sendNewMessage(text: String) {
+        let newMessage = Message(context: context)
+        newMessage.text = text
+        newMessage.date = Date()
+        newMessage.isSender = true
+        
+        do {
+            try context.save()
+            messages.append(newMessage)
+            groupMessagesByDate()
+            scrollToBottom(animated: true)
+        } catch {
+            print("Error saving message: \(error)")
+        }
     }
     
     func scrollToBottom(animated: Bool) {
@@ -165,31 +185,6 @@ class ChatViewController: UIViewController {
         
     deinit {
         NotificationCenter.default.removeObserver(self)
-    }
-}
-
-// MARK: - Extension TextField
-extension ChatViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        guard let text = messageTextField.text, !text.isEmpty else { return true }
-        
-        let newMessage = Message(context: context)
-        newMessage.text = text
-        newMessage.date = Date()
-        newMessage.isSender = true
-        //newMessage.isSender = false
-
-        do {
-            try context.save()
-            messages.append(newMessage)
-            groupMessagesByDate()
-            //tableView.reloadData()
-            messageTextField.text = ""
-        } catch {
-            print("Failed to save message: \(error)")
-        }
-        scrollToBottom(animated: true)
-        return true
     }
 }
 

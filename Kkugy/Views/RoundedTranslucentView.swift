@@ -24,9 +24,9 @@ class RoundedTranslucentView: UIView {
         self.layer.cornerRadius = 15
         
         self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width: 0, height: 2) // 그림자의 방향 및 거리
-        self.layer.shadowRadius = 4 // 그림자의 퍼짐 정도
-        self.layer.shadowOpacity = 0.1 // 그림자의 투명도
+        self.layer.shadowOffset = CGSize(width: 0, height: 2)
+        self.layer.shadowRadius = 4
+        self.layer.shadowOpacity = 0.1
         
         self.clipsToBounds = false
     }

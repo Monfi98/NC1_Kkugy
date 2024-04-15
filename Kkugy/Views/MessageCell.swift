@@ -29,6 +29,10 @@ class MessageCell: UITableViewCell {
     private func setupViews() {
         messageBackgroundView.backgroundColor = .lightGray
         messageBackgroundView.layer.cornerRadius = 12
+        messageBackgroundView.layer.shadowColor = UIColor.black.cgColor
+        messageBackgroundView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        messageBackgroundView.layer.shadowRadius = 4
+        messageBackgroundView.layer.shadowOpacity = 0.1
         messageBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(messageBackgroundView)
         
@@ -38,6 +42,7 @@ class MessageCell: UITableViewCell {
         addSubview(messageLabel)
         
         timeLabel.font = UIFont.systemFont(ofSize: 10)
+        timeLabel.textColor = .gray
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(timeLabel)
         
