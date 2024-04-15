@@ -61,28 +61,32 @@ class ChatViewController: UIViewController {
         tableView.backgroundColor = UIColor.clear
         tableView.separatorStyle = .none
         
-        messageTextField = UITextField()
-        messageTextField.delegate = self
-        messageTextField.placeholder = "메시지를 입력해주세요."
-        messageTextField.borderStyle = .roundedRect
-        messageTextField.returnKeyType = .send
-        messageTextField.autocorrectionType = .no
-        messageTextField.spellCheckingType = .no
-        messageTextField.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(messageTextField)
+//        messageTextField = UITextField()
+//        messageTextField.delegate = self
+//        messageTextField.placeholder = "메시지를 입력해주세요."
+//        messageTextField.borderStyle = .roundedRect
+//        messageTextField.returnKeyType = .send
+//        messageTextField.autocorrectionType = .no
+//        messageTextField.spellCheckingType = .no
+//        messageTextField.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(messageTextField)
+        
+        let messageInputView = MessageInputView()
+        messageInputView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(messageInputView)
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            messageTextField.topAnchor.constraint(equalTo: tableView.bottomAnchor),
-            messageTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            messageTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            messageTextField.heightAnchor.constraint(equalToConstant: 35)
+            messageInputView.topAnchor.constraint(equalTo: tableView.bottomAnchor),
+            messageInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            messageInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            messageInputView.heightAnchor.constraint(equalToConstant: 50)
         ])
         
-        bottomTextFieldConstraint = messageTextField.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10)
+        bottomTextFieldConstraint = messageInputView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10)
         bottomTextFieldConstraint.isActive = true
     }
     
