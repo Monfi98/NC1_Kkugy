@@ -50,7 +50,7 @@ class ChatViewController: UIViewController {
         view.setTranslucentBackground()
         
         
-        tableView = UITableView()
+        tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(MessageCell.self, forCellReuseIdentifier: "MessageCell")
@@ -65,6 +65,7 @@ class ChatViewController: UIViewController {
         messageTextField.delegate = self
         messageTextField.placeholder = "메시지를 입력해주세요."
         messageTextField.borderStyle = .roundedRect
+        messageTextField.returnKeyType = .send
         messageTextField.autocorrectionType = .no
         messageTextField.spellCheckingType = .no
         messageTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -163,7 +164,7 @@ class ChatViewController: UIViewController {
     }
 }
 
-// MARK: - Extension
+// MARK: - Extension TextField
 extension ChatViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let text = messageTextField.text, !text.isEmpty else { return true }
@@ -189,6 +190,7 @@ extension ChatViewController: UITextFieldDelegate {
 }
 
 
+// MARK: - Extension TableView
 extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
@@ -207,11 +209,18 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = CenteredSectionHeaderView()
         let formatter = DateFormatter()
         formatter.dateStyle = .full
         formatter.locale = Locale(identifier: "ko_KR")
-        return formatter.string(from: sections[section].date)
+        let title = formatter.string(from: sections[section].date)
+        headerView.setTitle(title)
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

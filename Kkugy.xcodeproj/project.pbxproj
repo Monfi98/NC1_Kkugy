@@ -17,6 +17,7 @@
 		35A478942BC68AB9002E3E0D /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A478932BC68AB9002E3E0D /* SummaryViewController.swift */; };
 		35B4E7A22BC8E64100D8B608 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7A12BC8E64100D8B608 /* MessageCell.swift */; };
 		35B4E7A42BCA059F00D8B608 /* MessageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7A32BCA059F00D8B608 /* MessageModels.swift */; };
+		35B4E7A62BCCC0BA00D8B608 /* CenteredSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7A52BCCC0BA00D8B608 /* CenteredSectionHeaderView.swift */; };
 		35D3E56A2BC7A38500487F7C /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */; };
 		35D3E56C2BC7A8FA00487F7C /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */; };
 		35D3E56E2BC7D20700487F7C /* RoundedTranslucentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */; };
@@ -37,6 +38,7 @@
 		35A478932BC68AB9002E3E0D /* SummaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
 		35B4E7A12BC8E64100D8B608 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		35B4E7A32BCA059F00D8B608 /* MessageModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModels.swift; sourceTree = "<group>"; };
+		35B4E7A52BCCC0BA00D8B608 /* CenteredSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenteredSectionHeaderView.swift; sourceTree = "<group>"; };
 		35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTranslucentView.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				35A4787E2BC67A4E002E3E0D /* Main.storyboard */,
 				35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */,
 				35B4E7A12BC8E64100D8B608 /* MessageCell.swift */,
+				35B4E7A52BCCC0BA00D8B608 /* CenteredSectionHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -217,6 +220,7 @@
 				35D3E5702BC8070600487F7C /* ChatViewController.swift in Sources */,
 				35A478942BC68AB9002E3E0D /* SummaryViewController.swift in Sources */,
 				35B4E7A42BCA059F00D8B608 /* MessageModels.swift in Sources */,
+				35B4E7A62BCCC0BA00D8B608 /* CenteredSectionHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
