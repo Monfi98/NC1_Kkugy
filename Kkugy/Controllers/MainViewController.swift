@@ -12,7 +12,9 @@ class MainViewController: UIViewController {
     // MARK: - Properties
     
     var scrollView: UIScrollView!
-    var tableView: UITableView!
+    var rescentTableView: UITableView!
+    var historyTableView: UITableView!
+    var mainTitleLabel: UILabel!
     var subTitleLabel: UILabel!
     var searchBar: UISearchBar!
     
@@ -44,6 +46,13 @@ class MainViewController: UIViewController {
         scrollView = UIScrollView()
         view.setupScrollView(scrollView)
         
+        mainTitleLabel = UILabel()
+        mainTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        mainTitleLabel.text = "최근 대화"
+        mainTitleLabel.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
+        mainTitleLabel.textAlignment = .left
+        scrollView.addSubview(mainTitleLabel)
+        
         let rectangle = RoundedTranslucentView()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         
@@ -63,18 +72,22 @@ class MainViewController: UIViewController {
         searchBar.backgroundImage = UIImage()
         scrollView.addSubview(searchBar)
         
-        tableView = UITableView()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.isScrollEnabled = false
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        historyTableView = UITableView()
+        historyTableView.dataSource = self
+        historyTableView.delegate = self
+        historyTableView.isScrollEnabled = false
+        historyTableView.translatesAutoresizingMaskIntoConstraints = false
         
-        tableView.register(ChatRoomCell.self, forCellReuseIdentifier: "ChatRoomCell")
-        scrollView.addSubview(tableView)
+        historyTableView.register(ChatRoomCell.self, forCellReuseIdentifier: "ChatRoomCell")
+        scrollView.addSubview(historyTableView)
         
         NSLayoutConstraint.activate([
             
-            rectangle.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 10),
+            mainTitleLabel.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 10),
+            mainTitleLabel.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
+            mainTitleLabel.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
+            
+            rectangle.topAnchor.constraint(equalTo: mainTitleLabel.bottomAnchor, constant: 10),
             rectangle.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
             rectangle.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
             rectangle.heightAnchor.constraint(equalToConstant: 140),
@@ -88,13 +101,13 @@ class MainViewController: UIViewController {
             searchBar.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -8),
             
             
-            tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
-            tableView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
-            tableView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: 0),
+            historyTableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
+            historyTableView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
+            historyTableView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
+            historyTableView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: 0),
         ])
         
-        tableViewHeightConstraint = tableView.heightAnchor.constraint(equalToConstant: 0)
+        tableViewHeightConstraint = historyTableView.heightAnchor.constraint(equalToConstant: 0)
         tableViewHeightConstraint?.isActive = true
     }
     
@@ -111,8 +124,8 @@ class MainViewController: UIViewController {
     }
     
     func updateTableViewHeight() {
-        tableView.layoutIfNeeded()
-        tableViewHeightConstraint?.constant = tableView.contentSize.height
+        historyTableView.layoutIfNeeded()
+        tableViewHeightConstraint?.constant = historyTableView.contentSize.height
     }
     
     func navigateToChatView(index: Int?) {
@@ -123,7 +136,7 @@ class MainViewController: UIViewController {
             if let idx = index {
                 chatVC.currentChatRoom = chatRooms[idx]
             } else {
-                chatVC.currentChatRoom = nil  // 인덱스가 제공되지 않은 경우
+                chatVC.currentChatRoom = nil
             }
             
             navigationController?.pushViewController(chatVC, animated: true)
@@ -145,18 +158,39 @@ class MainViewController: UIViewController {
 // MARK: - Extension Table View
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return chatRooms.count
+        switch(tableView) {
+        case historyTableView:
+            return chatRooms.count
+            
+        case rescentTableView:
+            return 0
+            
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatRoomCell", for: indexPath) as! ChatRoomCell
-        
-        let chatRoom = chatRooms[indexPath.row]
-        cell.configure(with: chatRoom)
-        return cell
+        switch(tableView) {
+        case historyTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ChatRoomCell", for: indexPath) as! ChatRoomCell
+            let chatRoom = chatRooms[indexPath.row]
+            cell.configure(with: chatRoom)
+            return cell
+            
+        case rescentTableView:
+            let cell = UITableViewCell()
+            return cell
+            
+        default:
+            let cell = UITableViewCell()
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigateToChatView(index: indexPath.row)
+        if tableView == historyTableView {
+            navigateToChatView(index: indexPath.row)
+        }
     }
 }

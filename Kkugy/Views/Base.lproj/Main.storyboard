@@ -19,7 +19,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="메인" image="house" catalog="system" selectedImage="house.fill" id="58r-P7-Cl9"/>
-                    <navigationItem key="navigationItem" title="최근 대화" id="5hc-XP-D6q">
+                    <navigationItem key="navigationItem" title="메인" id="5hc-XP-D6q">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus.bubble.fill" catalog="system" id="WeK-KZ-FtN">
                             <connections>
                                 <action selector="didTapBarButton:" destination="BYZ-38-t0r" id="nPo-YF-IZd"/>
@@ -120,8 +120,8 @@
                 <navigationController id="OEE-Kz-1wg" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="cCN-f4-hLY"/>
                     <navigationItem key="navigationItem" id="IIb-GP-baM"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="zkR-x1-YTy">
-                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="zkR-x1-YTy">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
