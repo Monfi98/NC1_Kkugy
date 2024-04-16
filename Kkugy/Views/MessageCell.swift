@@ -102,7 +102,7 @@ class MessageCell: UITableViewCell {
     
     private func formatTime(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "a h시 m분"
+        formatter.dateFormat = "a h:m"
         formatter.locale = Locale(identifier: "ko_KR")
         return formatter.string(from: date)
     }

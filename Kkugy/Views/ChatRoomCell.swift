@@ -9,6 +9,8 @@ import UIKit
 
 class ChatRoomCell: UITableViewCell {
     
+    private let roundedView = RoundedTranslucentView()
+    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -35,16 +37,26 @@ class ChatRoomCell: UITableViewCell {
     }
     
     private func setupViews() {
-        addSubview(nameLabel)
-        addSubview(lastDateLabel)
+        contentView.addSubview(roundedView)
+        roundedView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            roundedView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            roundedView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            roundedView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            roundedView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
+        ])
+        
+        roundedView.addSubview(nameLabel)
+        roundedView.addSubview(lastDateLabel)
         
         NSLayoutConstraint.activate([
-            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: lastDateLabel.leadingAnchor, constant: -10),
+            nameLabel.topAnchor.constraint(equalTo: roundedView.topAnchor, constant: 10),
+            nameLabel.leadingAnchor.constraint(equalTo: roundedView.leadingAnchor, constant: 20),
+            nameLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
             
-            lastDateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            lastDateLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+            lastDateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
+            lastDateLabel.trailingAnchor.constraint(equalTo: roundedView.trailingAnchor, constant: -20),
+            lastDateLabel.bottomAnchor.constraint(equalTo: roundedView.bottomAnchor, constant: -10)
         ])
     }
     
@@ -56,8 +68,8 @@ class ChatRoomCell: UITableViewCell {
     private func formatDate(_ date: Date?) -> String {
         guard let date = date else { return "No Date" }
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
+        formatter.dateStyle = .full
+        formatter.locale = Locale(identifier: "ko_KR")
         return formatter.string(from: date)
     }
 }

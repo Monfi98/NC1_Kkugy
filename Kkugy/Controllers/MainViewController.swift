@@ -12,17 +12,22 @@ class MainViewController: UIViewController {
     // MARK: - Properties
     
     var scrollView: UIScrollView!
-    var rescentTableView: UITableView!
+    var recentTableView: UITableView!
     var historyTableView: UITableView!
     var mainTitleLabel: UILabel!
     var subTitleLabel: UILabel!
     var searchBar: UISearchBar!
+    var messageCellTop: MessageCell!
+    var messageCellBottom: MessageCell!
     
     var chatRooms: [ChatRoom] = []
+    var messages: [Message] = []
     
     var context: NSManagedObjectContext! = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    private var tableViewHeightConstraint: NSLayoutConstraint?
+    private var rectangleHeightConstraint: NSLayoutConstraint?
+    private var recentTableViewHeightConstraint: NSLayoutConstraint?
+    private var historyTableViewHeightConstraint: NSLayoutConstraint?
     
     
     // MARK: - LifeCycle
@@ -34,7 +39,9 @@ class MainViewController: UIViewController {
         super.viewWillAppear(animated)
 
         fetchChatRooms()
+        loadPreviewMessages()
         setupUI()
+        
         updateTableViewHeight()
     }
 
@@ -60,6 +67,27 @@ class MainViewController: UIViewController {
         rectangle.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(rectangle)
         
+        
+        messageCellTop = MessageCell()
+        messageCellBottom = MessageCell()
+        
+        if messages.isEmpty {
+            
+            messageCellTop.configure(with:  "test", date: Date(), isSender: true, showTime: true)
+            
+            messageCellBottom.configure(with: "test", date: Date(), isSender: false, showTime: true)
+        } else {
+            let message1 = messages[0]
+            messageCellTop.configure(with: message1.text ?? "", date: message1.date!, isSender: message1.isSender, showTime: true)
+            
+            let message2 = messages[1]
+            messageCellBottom.configure(with: message2.text ?? "", date: message2.date!, isSender: message2.isSender, showTime: true)
+        }
+        messageCellTop.translatesAutoresizingMaskIntoConstraints = false
+        messageCellBottom.translatesAutoresizingMaskIntoConstraints = false
+        rectangle.addSubview(messageCellTop)
+        rectangle.addSubview(messageCellBottom)
+        
         subTitleLabel = UILabel()
         subTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         subTitleLabel.text = "History"
@@ -75,6 +103,8 @@ class MainViewController: UIViewController {
         historyTableView = UITableView()
         historyTableView.dataSource = self
         historyTableView.delegate = self
+        historyTableView.backgroundColor = UIColor.clear
+        historyTableView.separatorStyle = .none
         historyTableView.isScrollEnabled = false
         historyTableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -90,9 +120,17 @@ class MainViewController: UIViewController {
             rectangle.topAnchor.constraint(equalTo: mainTitleLabel.bottomAnchor, constant: 10),
             rectangle.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
             rectangle.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
-            rectangle.heightAnchor.constraint(equalToConstant: 140),
             
-            subTitleLabel.topAnchor.constraint(equalTo: rectangle.bottomAnchor, constant: 40),
+            messageCellTop.topAnchor.constraint(equalTo: rectangle.topAnchor, constant: 10),
+            messageCellTop.leadingAnchor.constraint(equalTo: rectangle.leadingAnchor),
+            messageCellTop.trailingAnchor.constraint(equalTo: rectangle.trailingAnchor),
+            
+            messageCellBottom.topAnchor.constraint(equalTo: messageCellTop.bottomAnchor),
+            messageCellBottom.leadingAnchor.constraint(equalTo: rectangle.leadingAnchor),
+            messageCellBottom.trailingAnchor.constraint(equalTo: rectangle.trailingAnchor),
+            messageCellBottom.bottomAnchor.constraint(equalTo: rectangle.bottomAnchor, constant: -10),
+            
+            subTitleLabel.topAnchor.constraint(equalTo: rectangle.bottomAnchor, constant: 30),
             subTitleLabel.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
             subTitleLabel.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
             
@@ -107,8 +145,9 @@ class MainViewController: UIViewController {
             historyTableView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: 0),
         ])
         
-        tableViewHeightConstraint = historyTableView.heightAnchor.constraint(equalToConstant: 0)
-        tableViewHeightConstraint?.isActive = true
+        historyTableViewHeightConstraint = historyTableView.heightAnchor.constraint(equalToConstant: 0)
+        
+        historyTableViewHeightConstraint?.isActive = true
     }
     
     func fetchChatRooms() {
@@ -125,7 +164,7 @@ class MainViewController: UIViewController {
     
     func updateTableViewHeight() {
         historyTableView.layoutIfNeeded()
-        tableViewHeightConstraint?.constant = historyTableView.contentSize.height
+        historyTableViewHeightConstraint?.constant = CGFloat(chatRooms.count * 85)
     }
     
     func navigateToChatView(index: Int?) {
@@ -140,6 +179,22 @@ class MainViewController: UIViewController {
             }
             
             navigationController?.pushViewController(chatVC, animated: true)
+        }
+    }
+    
+    func loadPreviewMessages() {
+        guard let chatRoom = chatRooms.first else {
+            print("No chat rooms available")
+            return
+        }
+        
+        if let messagesSet = chatRoom.messages as? Set<Message> {
+            let sortedMessages = messagesSet.sorted {
+                $0.date! > $1.date!
+            }
+            
+            let recentMessages = Array(sortedMessages.prefix(2).reversed())
+            self.messages = recentMessages
         }
     }
     
@@ -158,39 +213,25 @@ class MainViewController: UIViewController {
 // MARK: - Extension Table View
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch(tableView) {
-        case historyTableView:
-            return chatRooms.count
-            
-        case rescentTableView:
-            return 0
-            
-        default:
-            return 0
-        }
+        return chatRooms.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch(tableView) {
-        case historyTableView:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ChatRoomCell", for: indexPath) as! ChatRoomCell
-            let chatRoom = chatRooms[indexPath.row]
-            cell.configure(with: chatRoom)
-            return cell
-            
-        case rescentTableView:
-            let cell = UITableViewCell()
-            return cell
-            
-        default:
-            let cell = UITableViewCell()
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatRoomCell", for: indexPath) as! ChatRoomCell
+        let chatRoom = chatRooms[indexPath.row]
+        cell.configure(with: chatRoom)
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView == historyTableView {
-            navigateToChatView(index: indexPath.row)
-        }
+        navigateToChatView(index: indexPath.row)
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = .clear
+        // cell.selectionStyle = .none
     }
 }

@@ -96,15 +96,15 @@ class ChatViewController: UIViewController {
             self?.sendNewMessage(text: messageText, isSender: true)
             
             // ai 비활성화
-//            NetworkManager.shared.sendMessage(message: messageText, completion: { result in
-//                switch result {
-//                case .success(let response):
-//                    print("AI Response: \(response)")
-//                    self?.sendNewMessage(text: response, isSender: false)
-//                case .failure(let error):
-//                    print("Error: \(error.localizedDescription)")
-//                }
-//            })
+            NetworkManager.shared.sendMessage(message: messageText, completion: { result in
+                switch result {
+                case .success(let response):
+                    print("AI Response: \(response)")
+                    self?.sendNewMessage(text: response, isSender: false)
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                }
+            })
         }
     }
     
@@ -264,11 +264,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         headerView.setTitle(title)
         return headerView
     }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
-    }
-    
+ 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
