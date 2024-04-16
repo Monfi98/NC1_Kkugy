@@ -8,6 +8,8 @@
 import UIKit
 import CoreData
 
+import Alamofire
+
 class ChatViewController: UIViewController {
     
     // MARK: - Properties
@@ -29,7 +31,6 @@ class ChatViewController: UIViewController {
         setupUI()
         setupKeyboardNotifications()
         loadMessages()
-        scrollToBottom(animated: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,7 +92,16 @@ class ChatViewController: UIViewController {
         bottomTextFieldConstraint.isActive = true
         
         messageInputView.onSend = { [weak self] messageText in
-            self?.sendNewMessage(text: messageText)
+            self?.sendNewMessage(text: messageText, isSender: true)
+            NetworkManager.shared.sendMessage(message: messageText, completion: { result in
+                switch result {
+                case .success(let response):
+                    print("AI Response: \(response)")
+                    self?.sendNewMessage(text: response, isSender: false)
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                }
+            })
         }
     }
     
@@ -111,6 +121,7 @@ class ChatViewController: UIViewController {
             print("Failed to fetch messages: \(error)")
         }
     }
+    
     
     func groupMessagesByDate() {
         sections.removeAll()
@@ -132,11 +143,11 @@ class ChatViewController: UIViewController {
         tableView.reloadData()
     }
     
-    func sendNewMessage(text: String) {
+    func sendNewMessage(text: String, isSender: Bool) {
         let newMessage = Message(context: context)
         newMessage.text = text
         newMessage.date = Date()
-        newMessage.isSender = true
+        newMessage.isSender = isSender
         
         do {
             try context.save()
@@ -175,7 +186,7 @@ class ChatViewController: UIViewController {
     // MARK: - @obj Function
     @objc func keyboardWillShow(notification: Notification) {
         adjustForKeyboard(notification: notification, show: true)
-        scrollToBottom(animated: true)
+        scrollToBottom(animated: false)
         
     }
     

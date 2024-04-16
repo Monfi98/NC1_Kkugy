@@ -37,7 +37,7 @@ class MessageInputView: UIView {
         layer.shadowRadius = 4
         layer.shadowOpacity = 0.1
         
-        //textField.becomeFirstResponder()
+        textField.becomeFirstResponder()
         textField.font = UIFont.systemFont(ofSize: 15)
         textField.borderStyle = .none
         textField.placeholder = "메시지를 입력해주세요."
