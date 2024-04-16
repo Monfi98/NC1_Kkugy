@@ -19,6 +19,7 @@ class ChatViewController: UIViewController {
     
     private var bottomTextFieldConstraint: NSLayoutConstraint!
     
+    var currentChatRoom: ChatRoom?
     var messages: [Message] = []
     var sections: [MessageSection] = []
     var context: NSManagedObjectContext! = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -93,15 +94,17 @@ class ChatViewController: UIViewController {
         
         messageInputView.onSend = { [weak self] messageText in
             self?.sendNewMessage(text: messageText, isSender: true)
-            NetworkManager.shared.sendMessage(message: messageText, completion: { result in
-                switch result {
-                case .success(let response):
-                    print("AI Response: \(response)")
-                    self?.sendNewMessage(text: response, isSender: false)
-                case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
-                }
-            })
+            
+            // ai 비활성화
+//            NetworkManager.shared.sendMessage(message: messageText, completion: { result in
+//                switch result {
+//                case .success(let response):
+//                    print("AI Response: \(response)")
+//                    self?.sendNewMessage(text: response, isSender: false)
+//                case .failure(let error):
+//                    print("Error: \(error.localizedDescription)")
+//                }
+//            })
         }
     }
     
@@ -112,10 +115,15 @@ class ChatViewController: UIViewController {
     
     
     func loadMessages() {
-        let request: NSFetchRequest<Message> = Message.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+        guard let chatRoom = currentChatRoom else { return }
+        
+        
+        let fetchRequest: NSFetchRequest<Message> = Message.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "chatRoom == %@", chatRoom)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+
         do {
-            messages = try context.fetch(request)
+            messages = try context.fetch(fetchRequest)
             groupMessagesByDate()
         } catch {
             print("Failed to fetch messages: \(error)")
@@ -124,6 +132,7 @@ class ChatViewController: UIViewController {
     
     
     func groupMessagesByDate() {
+        
         sections.removeAll()
         var currentSection: MessageSection?
         
@@ -144,10 +153,21 @@ class ChatViewController: UIViewController {
     }
     
     func sendNewMessage(text: String, isSender: Bool) {
+        if currentChatRoom == nil {
+            createNewChatRoom()
+        }
+        
+        guard let chatRoom = currentChatRoom else { return }
+        
         let newMessage = Message(context: context)
+        let nowDate = Date()
         newMessage.text = text
-        newMessage.date = Date()
+        newMessage.date = nowDate
         newMessage.isSender = isSender
+        newMessage.chatRoom = chatRoom
+        
+        // chatRoom lastDate 업데이트
+        chatRoom.lastDate = nowDate
         
         do {
             try context.save()
@@ -158,6 +178,22 @@ class ChatViewController: UIViewController {
             print("Error saving message: \(error)")
         }
     }
+    
+    func createNewChatRoom() {
+        print(#function)
+        let chatRoom = ChatRoom(context: context)
+        chatRoom.id = UUID()
+        chatRoom.creationDate = Date()
+        chatRoom.lastDate = Date()
+        currentChatRoom = chatRoom
+        
+        do {
+            try context.save()
+        } catch {
+            print("Failed to create new chat room: \(error)")
+        }
+    }
+    
     
     func scrollToBottom(animated: Bool) {
         guard !sections.isEmpty else { return }

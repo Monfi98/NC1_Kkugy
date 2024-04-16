@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import CoreData
 
 class MainViewController: UIViewController {
     // MARK: - Properties
     var scrollView: UIScrollView!
+    
+    var context: NSManagedObjectContext! = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     
     // MARK: - IBOutlets
@@ -100,12 +103,25 @@ class MainViewController: UIViewController {
         ])
     }
     
+    func fetchChatRooms() -> [ChatRoom] {
+        let request: NSFetchRequest<ChatRoom> = ChatRoom.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "lastDate", ascending: false)
+        request.sortDescriptors = [sortDescriptor]
+
+        do {
+            return try context.fetch(request)
+        } catch {
+            print("Error fetching chat rooms: \(error)")
+            return []
+        }
+    }
+    
     // MARK: - @IBAction Function
     @IBAction func didTapBarButton(_ sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let testChatVC = storyboard.instantiateViewController(withIdentifier: "TestChatView") as? TestChatViewController {
-            testChatVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(testChatVC, animated: true)
+        if let chatVC = storyboard.instantiateViewController(withIdentifier: "ChatView") as? ChatViewController {
+            chatVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(chatVC, animated: true)
         }
     }
     
@@ -115,6 +131,8 @@ class MainViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let chatVC = storyboard.instantiateViewController(withIdentifier: "ChatView") as? ChatViewController {
             chatVC.hidesBottomBarWhenPushed = true
+            let mostRecentChatRoom = fetchChatRooms()[0]
+            chatVC.currentChatRoom = mostRecentChatRoom
             navigationController?.pushViewController(chatVC, animated: true)
         }
     }
@@ -124,3 +142,4 @@ class MainViewController: UIViewController {
 
 
 // rectangle3.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20),
+// scroll view를 사용할때 마지막 요소에 들어가는 auto layout
