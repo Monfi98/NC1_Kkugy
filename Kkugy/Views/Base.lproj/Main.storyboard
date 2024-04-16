@@ -20,7 +20,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="메인" image="house" catalog="system" selectedImage="house.fill" id="58r-P7-Cl9"/>
                     <navigationItem key="navigationItem" title="최근 대화" id="5hc-XP-D6q">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="square.and.pencil" catalog="system" id="WeK-KZ-FtN">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus.bubble.fill" catalog="system" id="WeK-KZ-FtN">
                             <connections>
                                 <action selector="didTapBarButton:" destination="BYZ-38-t0r" id="nPo-YF-IZd"/>
                             </connections>
@@ -138,7 +138,7 @@
         <image name="house.fill" catalog="system" width="128" height="104"/>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
         <image name="list.bullet.rectangle.portrait.fill" catalog="system" width="115" height="128"/>
-        <image name="square.and.pencil" catalog="system" width="128" height="121"/>
+        <image name="plus.bubble.fill" catalog="system" width="128" height="110"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

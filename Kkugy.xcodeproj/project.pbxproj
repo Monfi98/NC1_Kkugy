@@ -23,6 +23,7 @@
 		35B4E7CB2BCD35CE00D8B608 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7CA2BCD35CE00D8B608 /* NetworkManager.swift */; };
 		35B4E7CD2BCD363500D8B608 /* OpenAIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7CC2BCD363500D8B608 /* OpenAIModel.swift */; };
 		35B4E7CF2BCE01B600D8B608 /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7CE2BCE01B500D8B608 /* ApiKey.swift */; };
+		35B4E7D32BCE316200D8B608 /* ChatRoomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B4E7D22BCE316200D8B608 /* ChatRoomCell.swift */; };
 		35D3E56A2BC7A38500487F7C /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */; };
 		35D3E56C2BC7A8FA00487F7C /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */; };
 		35D3E56E2BC7D20700487F7C /* RoundedTranslucentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */; };
@@ -51,6 +52,7 @@
 		35B4E7CA2BCD35CE00D8B608 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		35B4E7CC2BCD363500D8B608 /* OpenAIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIModel.swift; sourceTree = "<group>"; };
 		35B4E7CE2BCE01B500D8B608 /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
+		35B4E7D22BCE316200D8B608 /* ChatRoomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomCell.swift; sourceTree = "<group>"; };
 		35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		35D3E56B2BC7A8FA00487F7C /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		35D3E56D2BC7D20700487F7C /* RoundedTranslucentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTranslucentView.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				35B4E7A52BCCC0BA00D8B608 /* CenteredSectionHeaderView.swift */,
 				35B4E7A72BCCC42F00D8B608 /* MessageInputView.swift */,
 				35B4E7A92BCCE81200D8B608 /* ChatNavigationHeaderView.swift */,
+				35B4E7D22BCE316200D8B608 /* ChatRoomCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				35D3E56E2BC7D20700487F7C /* RoundedTranslucentView.swift in Sources */,
 				35D3E5722BC8076D00487F7C /* DetailViewController.swift in Sources */,
 				35B4E7CB2BCD35CE00D8B608 /* NetworkManager.swift in Sources */,
+				35B4E7D32BCE316200D8B608 /* ChatRoomCell.swift in Sources */,
 				35D3E5702BC8070600487F7C /* ChatViewController.swift in Sources */,
 				35A478942BC68AB9002E3E0D /* SummaryViewController.swift in Sources */,
 				35B4E7A42BCA059F00D8B608 /* MessageModels.swift in Sources */,

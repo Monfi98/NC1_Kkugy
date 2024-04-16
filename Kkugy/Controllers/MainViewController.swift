@@ -10,37 +10,40 @@ import CoreData
 
 class MainViewController: UIViewController {
     // MARK: - Properties
+    
     var scrollView: UIScrollView!
+    var tableView: UITableView!
+    var subTitleLabel: UILabel!
+    var searchBar: UISearchBar!
+    
+    var chatRooms: [ChatRoom] = []
     
     var context: NSManagedObjectContext! = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    
-    // MARK: - IBOutlets
+    private var tableViewHeightConstraint: NSLayoutConstraint?
     
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        initializeSetup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        fetchChatRooms()
+        setupUI()
+        updateTableViewHeight()
     }
 
     
     // MARK: - Function
-    func initializeSetup() {
+    func setupUI() {
         view.setGradientBackground()
         
         scrollView = UIScrollView()
-        self.view.setupScrollView(scrollView)
+        view.setupScrollView(scrollView)
         
-        addToScrollView()
-    }
-    
-    
-    func addToScrollView() {
-    
-        // 첫 번째 rectangle
         let rectangle = RoundedTranslucentView()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         
@@ -48,31 +51,26 @@ class MainViewController: UIViewController {
         rectangle.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(rectangle)
         
-        // 두번째 제목
-        let textLabel = UILabel()
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
-        textLabel.text = "History"
-        textLabel.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
-        textLabel.textAlignment = .left
-        scrollView.addSubview(textLabel)
+        subTitleLabel = UILabel()
+        subTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        subTitleLabel.text = "History"
+        subTitleLabel.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
+        subTitleLabel.textAlignment = .left
+        scrollView.addSubview(subTitleLabel)
         
-        
-        let searchBar = UISearchBar()
+        searchBar = UISearchBar()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.backgroundImage = UIImage()
         scrollView.addSubview(searchBar)
-
-       
         
-        // 두 번째 사각형
-        let rectangle2 = RoundedTranslucentView()
-        rectangle2.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(rectangle2)
+        tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.isScrollEnabled = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        // 세 번째 사각형
-        let rectangle3 = RoundedTranslucentView()
-        rectangle3.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(rectangle3)
+        tableView.register(ChatRoomCell.self, forCellReuseIdentifier: "ChatRoomCell")
+        scrollView.addSubview(tableView)
         
         NSLayoutConstraint.activate([
             
@@ -81,65 +79,84 @@ class MainViewController: UIViewController {
             rectangle.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
             rectangle.heightAnchor.constraint(equalToConstant: 140),
             
-            textLabel.topAnchor.constraint(equalTo: rectangle.bottomAnchor, constant: 40),
-            textLabel.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
-            textLabel.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
+            subTitleLabel.topAnchor.constraint(equalTo: rectangle.bottomAnchor, constant: 40),
+            subTitleLabel.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
+            subTitleLabel.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
             
-            searchBar.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 10),
+            searchBar.topAnchor.constraint(equalTo: subTitleLabel.bottomAnchor, constant: 10),
             searchBar.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 8),
             searchBar.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -8),
             
             
-            rectangle2.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20),
-            rectangle2.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
-            rectangle2.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
-            rectangle2.heightAnchor.constraint(equalToConstant: 250),
-            
-            rectangle3.topAnchor.constraint(equalTo: rectangle2.bottomAnchor, constant: 20),
-            rectangle3.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
-            rectangle3.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
-            rectangle3.heightAnchor.constraint(equalToConstant: 250),
-            rectangle3.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20), // 마지막 요소의 bottomAnchor를 scrollView의 contentLayoutGuide의 bottomAnchor에 연결
+            tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
+            tableView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
+            tableView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: 0),
         ])
+        
+        tableViewHeightConstraint = tableView.heightAnchor.constraint(equalToConstant: 0)
+        tableViewHeightConstraint?.isActive = true
     }
     
-    func fetchChatRooms() -> [ChatRoom] {
+    func fetchChatRooms() {
         let request: NSFetchRequest<ChatRoom> = ChatRoom.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "lastDate", ascending: false)
         request.sortDescriptors = [sortDescriptor]
 
         do {
-            return try context.fetch(request)
+            chatRooms = try context.fetch(request)
         } catch {
             print("Error fetching chat rooms: \(error)")
-            return []
+        }
+    }
+    
+    func updateTableViewHeight() {
+        tableView.layoutIfNeeded()
+        tableViewHeightConstraint?.constant = tableView.contentSize.height
+    }
+    
+    func navigateToChatView(index: Int?) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let chatVC = storyboard.instantiateViewController(withIdentifier: "ChatView") as? ChatViewController {
+            chatVC.hidesBottomBarWhenPushed = true
+            
+            if let idx = index {
+                chatVC.currentChatRoom = chatRooms[idx]
+            } else {
+                chatVC.currentChatRoom = nil  // 인덱스가 제공되지 않은 경우
+            }
+            
+            navigationController?.pushViewController(chatVC, animated: true)
         }
     }
     
     // MARK: - @IBAction Function
     @IBAction func didTapBarButton(_ sender: UIBarButtonItem) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let chatVC = storyboard.instantiateViewController(withIdentifier: "ChatView") as? ChatViewController {
-            chatVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(chatVC, animated: true)
-        }
+        navigateToChatView(index: nil)
     }
     
     
     // MARK: - @obj Function
     @objc func viewTapped() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let chatVC = storyboard.instantiateViewController(withIdentifier: "ChatView") as? ChatViewController {
-            chatVC.hidesBottomBarWhenPushed = true
-            let mostRecentChatRoom = fetchChatRooms()[0]
-            chatVC.currentChatRoom = mostRecentChatRoom
-            navigationController?.pushViewController(chatVC, animated: true)
-        }
+        navigateToChatView(index: 0)
     }
 }
 
-// MARK: - Extension
-
-
-// rectangle3.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20),
-// scroll view를 사용할때 마지막 요소에 들어가는 auto layout
+// MARK: - Extension Table View
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return chatRooms.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChatRoomCell", for: indexPath) as! ChatRoomCell
+        
+        let chatRoom = chatRooms[indexPath.row]
+        cell.configure(with: chatRoom)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigateToChatView(index: indexPath.row)
+    }
+}
