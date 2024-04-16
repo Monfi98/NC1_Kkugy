@@ -103,9 +103,9 @@ class MainViewController: UIViewController {
     // MARK: - @IBAction Function
     @IBAction func didTapBarButton(_ sender: UIBarButtonItem) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let chatVC = storyboard.instantiateViewController(withIdentifier: "ChatView") as? ChatViewController {
-            chatVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(chatVC, animated: true)
+        if let testChatVC = storyboard.instantiateViewController(withIdentifier: "TestChatView") as? TestChatViewController {
+            testChatVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(testChatVC, animated: true)
         }
     }
     
