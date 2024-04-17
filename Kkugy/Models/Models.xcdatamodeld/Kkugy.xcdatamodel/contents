@@ -13,4 +13,8 @@
         <attribute name="text" optional="YES" attributeType="String"/>
         <relationship name="chatRoom" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ChatRoom" inverseName="messages" inverseEntity="ChatRoom"/>
     </entity>
+    <entity name="Summary" representedClassName="Summary" syncable="YES" codeGenerationType="class">
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
 </model>

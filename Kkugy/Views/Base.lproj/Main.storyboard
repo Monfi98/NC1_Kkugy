@@ -76,7 +76,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="요약" image="list.bullet.rectangle.portrait" catalog="system" selectedImage="list.bullet.rectangle.portrait.fill" id="YVJ-u6-2VB"/>
-                    <navigationItem key="navigationItem" title="요약" id="JCq-Iu-qbE"/>
+                    <navigationItem key="navigationItem" title="요약" id="JCq-Iu-qbE">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="rectangle.fill.badge.plus" catalog="system" id="6y4-ci-Xnt">
+                            <connections>
+                                <action selector="didTapBarButton:" destination="V3a-cY-J2B" id="XRb-10-0rC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EJc-sJ-zkb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -85,7 +91,7 @@
         <!--Detail View Controller-->
         <scene sceneID="UVx-SR-0F6">
             <objects>
-                <viewController id="kWm-Wn-daA" customClass="DetailViewController" customModule="Kkugy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailVC" id="kWm-Wn-daA" customClass="DetailViewController" customModule="Kkugy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XYM-x2-bNZ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -139,6 +145,7 @@
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
         <image name="list.bullet.rectangle.portrait.fill" catalog="system" width="115" height="128"/>
         <image name="plus.bubble.fill" catalog="system" width="128" height="110"/>
+        <image name="rectangle.fill.badge.plus" catalog="system" width="128" height="94"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

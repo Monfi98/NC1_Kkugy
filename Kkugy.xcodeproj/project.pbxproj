@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		354D40EC2BCFBBA3004C1DD6 /* SummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354D40EB2BCFBBA3004C1DD6 /* SummaryCell.swift */; };
 		35A478792BC67A4E002E3E0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A478782BC67A4E002E3E0D /* AppDelegate.swift */; };
 		35A4787B2BC67A4E002E3E0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A4787A2BC67A4E002E3E0D /* SceneDelegate.swift */; };
 		35A4787D2BC67A4E002E3E0D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A4787C2BC67A4E002E3E0D /* MainViewController.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		30E10027099675FE8A4873BE /* Pods-Kkugy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kkugy.release.xcconfig"; path = "Target Support Files/Pods-Kkugy/Pods-Kkugy.release.xcconfig"; sourceTree = "<group>"; };
+		354D40EB2BCFBBA3004C1DD6 /* SummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCell.swift; sourceTree = "<group>"; };
 		35A478752BC67A4E002E3E0D /* Kkugy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kkugy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35A478782BC67A4E002E3E0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		35A4787A2BC67A4E002E3E0D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				35B4E7A72BCCC42F00D8B608 /* MessageInputView.swift */,
 				35B4E7A92BCCE81200D8B608 /* ChatNavigationHeaderView.swift */,
 				35B4E7D22BCE316200D8B608 /* ChatRoomCell.swift */,
+				354D40EB2BCFBBA3004C1DD6 /* SummaryCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				35A4787D2BC67A4E002E3E0D /* MainViewController.swift in Sources */,
 				35A478832BC67A4E002E3E0D /* Models.xcdatamodeld in Sources */,
 				35B4E7CD2BCD363500D8B608 /* OpenAIModel.swift in Sources */,
+				354D40EC2BCFBBA3004C1DD6 /* SummaryCell.swift in Sources */,
 				35B4E7AA2BCCE81200D8B608 /* ChatNavigationHeaderView.swift in Sources */,
 				35A478792BC67A4E002E3E0D /* AppDelegate.swift in Sources */,
 				35A4787B2BC67A4E002E3E0D /* SceneDelegate.swift in Sources */,

@@ -6,68 +6,127 @@
 //
 
 import UIKit
+import CoreData
 
 class SummaryViewController: UIViewController {
     // MARK: - Properties
-    var scrollView: UIScrollView!
+    private var tableView: UITableView!
+    private var chatRooms: [ChatRoom] = []
+    private var summarys: [Summary] = []
     
-    // MARK: - IBOutlets
+    private var context: NSManagedObjectContext! = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        initializeSetup()
+        fetchChatRooms()
+        setupUI()
+        fetchSummarys()
     }
     
     // MARK: - Function
-    func initializeSetup() {
+    func setupUI() {
         view.setGradientBackground()
         
-        scrollView = UIScrollView()
-        self.view.setupScrollView(scrollView)
-        
-        addRectanglesToScrollView()
-    }
-    
-    func addRectanglesToScrollView() {
-        // 첫 번째 사각형
-        let rectangle1 = UIView()
-        rectangle1.backgroundColor = .yellow
-        rectangle1.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(rectangle1)
-        
-        // 두 번째 사각형
-        let rectangle2 = UIView()
-        rectangle2.backgroundColor = .cyan
-        rectangle2.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(rectangle2)
-        
-        // 세 번째 사각형
-        let rectangle3 = UIView()
-        rectangle3.backgroundColor = .black
-        rectangle3.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(rectangle3)
+        tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.backgroundColor = UIColor.clear
+        tableView.separatorStyle = .none
+        tableView.register(SummaryCell.self, forCellReuseIdentifier: "SummaryCell")
+
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            rectangle1.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 20),
-            rectangle1.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 0),
-            rectangle1.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: 0),
-            rectangle1.heightAnchor.constraint(equalToConstant: 250),
-            
-            rectangle2.topAnchor.constraint(equalTo: rectangle1.bottomAnchor, constant: 20),
-            rectangle2.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 0),
-            rectangle2.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: 0),
-            rectangle2.heightAnchor.constraint(equalToConstant: 250),
-            
-            rectangle3.topAnchor.constraint(equalTo: rectangle2.bottomAnchor, constant: 20),
-            rectangle3.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 0),
-            rectangle3.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: 0),
-            rectangle3.heightAnchor.constraint(equalToConstant: 250),
-            rectangle3.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20), // 마지막 요소의 bottomAnchor를 scrollView의 contentLayoutGuide의 bottomAnchor에 연결
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
+
+    }
+    
+    func fetchChatRooms() {
+        let request: NSFetchRequest<ChatRoom> = ChatRoom.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "lastDate", ascending: false)
+        request.sortDescriptors = [sortDescriptor]
+
+        do {
+            chatRooms = try context.fetch(request)
+        } catch {
+            print("Error fetching chat rooms: \(error)")
+        }
+    }
+    
+    func fetchSummarys() {
+        let request: NSFetchRequest<Summary> = Summary.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "createDate", ascending: false)
+        request.sortDescriptors = [sortDescriptor]
+
+        do {
+            summarys = try context.fetch(request)
+            tableView.reloadData()
+        } catch {
+            print("Error fetching summarys: \(error)")
+        }
+    }
+    
+    func createNewSummary(content: String) {
+        let summary = Summary(context: context)
+        summary.createDate = Date()
+        summary.content = content
+        do {
+            try context.save()
+            fetchSummarys()
+        } catch {
+            print("Failed to create new summary: \(error)")
+        }
+    }
+    
+    @IBAction func didTapBarButton(_ sender: Any) {
+        NetworkManager.shared.categorizeForSummary(chatRooms: chatRooms, completion: { result in
+            switch result {
+            case .success(let response):
+                print("AI Response: \(response)")
+                self.createNewSummary(content: response)
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
+            }
+        })
     }
 }
 
-// MARK: - Extension
+// MARK: - Extension Table View
+extension SummaryViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return summarys.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SummaryCell", for: indexPath) as! SummaryCell
+        let date = summarys[indexPath.row].createDate
+        cell.configure(date: date!, indexPath: indexPath)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailVC") as? DetailViewController {
+            detailVC.hidesBottomBarWhenPushed = true
+            detailVC.currentSummary = summarys[indexPath.row]
+            navigationController?.pushViewController(detailVC, animated: true)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = .clear
+        cell.selectionStyle = .none
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150.0
+    }
+}

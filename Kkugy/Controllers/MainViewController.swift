@@ -11,21 +11,21 @@ import CoreData
 class MainViewController: UIViewController {
     // MARK: - Properties
     
-    var scrollView: UIScrollView!
-    var recentTableView: UITableView!
-    var historyTableView: UITableView!
-    var mainTitleLabel: UILabel!
-    var subTitleLabel: UILabel!
-    var underlineView: UIView!
-    var recentButton: UIButton!
-    var oldButton: UIButton!
-    var messageCellTop: MessageCell!
-    var messageCellBottom: MessageCell!
+    private var scrollView: UIScrollView!
+    private var recentTableView: UITableView!
+    private var historyTableView: UITableView!
+    private var mainTitleLabel: UILabel!
+    private var subTitleLabel: UILabel!
+    private var underlineView: UIView!
+    private var recentButton: UIButton!
+    private var oldButton: UIButton!
+    private var messageCellTop: MessageCell!
+    private var messageCellBottom: MessageCell!
     
-    var chatRooms: [ChatRoom] = []
-    var messages: [Message] = []
+    private var chatRooms: [ChatRoom] = []
+    private var messages: [Message] = []
     
-    var context: NSManagedObjectContext! = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private var context: NSManagedObjectContext! = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     private var rectangleHeightConstraint: NSLayoutConstraint?
     private var recentTableViewHeightConstraint: NSLayoutConstraint?
@@ -261,7 +261,6 @@ class MainViewController: UIViewController {
             break
         }
     }
-    
 }
 
 // MARK: - Extension Table View

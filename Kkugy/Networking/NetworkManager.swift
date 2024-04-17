@@ -83,4 +83,50 @@ class NetworkManager {
             }
         }
     }
+    
+    func categorizeForSummary(chatRooms: [ChatRoom], completion: @escaping (Result<String, Error>) -> Void) {
+        let url = "\(baseURL)/chat/completions"
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(ApiKey.API_KEY)",
+            "Content-Type": "application/json"
+        ]
+        
+        let messages = chatRooms.flatMap { chatRoom in
+            guard let messagesSet = chatRoom.messages as? Set<Message> else { return [] }
+            return Array(messagesSet)
+        }
+        
+        
+        var messagePayloads: [[String: Any]] = [
+            ["role": "system", "content": "이제부터 제공되는 채팅 데이터를 기반으로 일기를 작성해 주세요. 채팅 데이터는 다음과 같습니다."]
+        ]
+        
+        
+        messagePayloads.append(contentsOf: messages.map { message in
+            ["role": (message as AnyObject).isSender ? "user" : "system", "content": (message as AnyObject).text ?? ""]
+        })
+
+        
+        messagePayloads.append(["role": "system", "content": "일기는 마치 사용자가 직접 작성한 것처럼 자연스럽게 써 주세요. 특정 질문이나 요청 없이, 데이터를 바탕으로 일상의 사건, 생각, 감정을 표현하는 형태로 작성해 주세요. 사용자의 입장에서 일기가 쓰여질 것입니다. 문체는 친근하고 개인적인 톤으로 유지하며, 너무 공식적이거나 기계적인 언어는 사용하지 마세요. 맨위에 한줄은 제목을 출력해주세요."])
+        
+        let parameters: [String: Any] = [
+            "model": "gpt-3.5-turbo-0125",
+            "messages": messagePayloads,
+            "max_tokens": 500
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseDecodable(of: ChatCompletionResponse.self) { response in
+            switch response.result {
+            case .success(let chatResponse):
+                if let messageContent = chatResponse.choices.first?.message.content {
+                    completion(.success(messageContent))
+                } else {
+                    completion(.failure(AFError.responseValidationFailed(reason: .dataFileNil)))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
 }
