@@ -248,9 +248,15 @@ class MainViewController: UIViewController {
         case recentButton:
             recentButton.setTitleColor(.accent, for: .normal)
             oldButton.setTitleColor(.gray, for: .normal)
+            
+            chatRooms.reverse()
+            historyTableView.reloadData()
         case oldButton:
             recentButton.setTitleColor(.gray, for: .normal)
             oldButton.setTitleColor(.accent, for: .normal)
+            
+            chatRooms.reverse()
+            historyTableView.reloadData()
         default:
             break
         }
