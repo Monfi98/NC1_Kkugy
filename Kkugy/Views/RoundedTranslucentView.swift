@@ -20,7 +20,7 @@ class RoundedTranslucentView: UIView {
     }
     
     private func setupView() {
-        self.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        self.backgroundColor = UIColor.white.withAlphaComponent(0.7)
         self.layer.cornerRadius = 15
         
         self.layer.shadowColor = UIColor.black.cgColor

@@ -95,8 +95,8 @@ class ChatViewController: UIViewController {
         messageInputView.onSend = { [weak self] messageText in
             self?.sendNewMessage(text: messageText, isSender: true)
             
-            // ai 비활성화
-            NetworkManager.shared.sendMessage(message: messageText, completion: { result in
+            // Api 코드
+            NetworkManager.shared.sendMessage(messages: self!.messages, newMessage: messageText, completion: { result in
                 switch result {
                 case .success(let response):
                     print("AI Response: \(response)")
@@ -105,6 +105,18 @@ class ChatViewController: UIViewController {
                     print("Error: \(error.localizedDescription)")
                 }
             })
+            
+            if self!.messages.count == 11 {
+                NetworkManager.shared.sendMessageForTitle(messages: self!.messages, completion: { result in
+                    switch result {
+                    case .success(let response):
+                        print("AI Response for title: \(response)")
+                        self?.setChatRoomTitle(title: response)
+                    case .failure(let error):
+                        print("Error: \(error.localizedDescription)")
+                    }
+                })
+            }
         }
     }
     
@@ -174,6 +186,18 @@ class ChatViewController: UIViewController {
             messages.append(newMessage)
             groupMessagesByDate()
             scrollToBottom(animated: true)
+        } catch {
+            print("Error saving message: \(error)")
+        }
+    }
+    
+    func setChatRoomTitle(title: String) {
+        guard let chatRoom = currentChatRoom else { return }
+        
+        chatRoom.name = title
+        
+        do {
+            try context.save()
         } catch {
             print("Error saving message: \(error)")
         }

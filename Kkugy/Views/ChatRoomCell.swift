@@ -61,7 +61,7 @@ class ChatRoomCell: UITableViewCell {
     }
     
     func configure(with chatRoom: ChatRoom) {
-        nameLabel.text = "\(chatRoom.id)"
+        nameLabel.text = chatRoom.name ?? "입력하려면 대화를 더 나누어야합니다!"
         lastDateLabel.text = formatDate(chatRoom.lastDate)
     }
     

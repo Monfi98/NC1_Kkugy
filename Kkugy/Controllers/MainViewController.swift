@@ -16,7 +16,9 @@ class MainViewController: UIViewController {
     var historyTableView: UITableView!
     var mainTitleLabel: UILabel!
     var subTitleLabel: UILabel!
-    var searchBar: UISearchBar!
+    var underlineView: UIView!
+    var recentButton: UIButton!
+    var oldButton: UIButton!
     var messageCellTop: MessageCell!
     var messageCellBottom: MessageCell!
     
@@ -24,7 +26,7 @@ class MainViewController: UIViewController {
     var messages: [Message] = []
     
     var context: NSManagedObjectContext! = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
+
     private var rectangleHeightConstraint: NSLayoutConstraint?
     private var recentTableViewHeightConstraint: NSLayoutConstraint?
     private var historyTableViewHeightConstraint: NSLayoutConstraint?
@@ -41,8 +43,12 @@ class MainViewController: UIViewController {
         fetchChatRooms()
         loadPreviewMessages()
         setupUI()
-        
+    
         updateTableViewHeight()
+        
+        DispatchQueue.main.async {
+            self.positionUnderlineView(under: self.recentButton, animated: false)
+        }
     }
 
     
@@ -94,11 +100,27 @@ class MainViewController: UIViewController {
         subTitleLabel.font = UIFont.systemFont(ofSize: 23, weight: .semibold)
         subTitleLabel.textAlignment = .left
         scrollView.addSubview(subTitleLabel)
+       
+        recentButton = UIButton()
+        recentButton.setTitleColor(.accent, for: .normal)
+        recentButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        recentButton.setTitle("Recent", for: .normal)
+        recentButton.addTarget(self, action: #selector(toggleButtonTapped(_:)), for: .touchUpInside)
+        recentButton.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(recentButton)
         
-        searchBar = UISearchBar()
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.backgroundImage = UIImage()
-        scrollView.addSubview(searchBar)
+        oldButton = UIButton()
+        oldButton.setTitleColor(.gray, for: .normal)
+        oldButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        oldButton.setTitle("Old", for: .normal)
+        oldButton.addTarget(self, action: #selector(toggleButtonTapped(_:)), for: .touchUpInside)
+        oldButton.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(oldButton)
+        
+        underlineView = UIView()
+        underlineView.backgroundColor = .accent
+        underlineView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(underlineView)
         
         historyTableView = UITableView()
         historyTableView.dataSource = self
@@ -131,15 +153,16 @@ class MainViewController: UIViewController {
             messageCellBottom.bottomAnchor.constraint(equalTo: rectangle.bottomAnchor, constant: -10),
             
             subTitleLabel.topAnchor.constraint(equalTo: rectangle.bottomAnchor, constant: 30),
-            subTitleLabel.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
-            subTitleLabel.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
+            subTitleLabel.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 20),
             
-            searchBar.topAnchor.constraint(equalTo: subTitleLabel.bottomAnchor, constant: 10),
-            searchBar.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 8),
-            searchBar.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -8),
+            recentButton.topAnchor.constraint(equalTo: subTitleLabel.bottomAnchor, constant: 10),
+            recentButton.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 23),
+            
+            oldButton.topAnchor.constraint(equalTo: subTitleLabel.bottomAnchor, constant: 10),
+            oldButton.leadingAnchor.constraint(equalTo: recentButton.trailingAnchor, constant: 20),
             
             
-            historyTableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
+            historyTableView.topAnchor.constraint(equalTo: recentButton.bottomAnchor, constant: 10),
             historyTableView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 16),
             historyTableView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -16),
             historyTableView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: 0),
@@ -198,6 +221,16 @@ class MainViewController: UIViewController {
         }
     }
     
+    func positionUnderlineView(under button: UIButton, animated: Bool) {
+        let animationDuration = animated ? 0.3 : 0.0
+        UIView.animate(withDuration: animationDuration) {
+            self.underlineView.frame = CGRect(x: button.frame.minX,
+                                              y: button.frame.maxY,
+                                              width: button.frame.width,
+                                              height: 3)
+        }
+    }
+    
     // MARK: - @IBAction Function
     @IBAction func didTapBarButton(_ sender: UIBarButtonItem) {
         navigateToChatView(index: nil)
@@ -208,6 +241,21 @@ class MainViewController: UIViewController {
     @objc func viewTapped() {
         navigateToChatView(index: 0)
     }
+    
+    @objc private func toggleButtonTapped(_ sender: UIButton) {
+        positionUnderlineView(under: sender, animated: true)
+        switch(sender) {
+        case recentButton:
+            recentButton.setTitleColor(.accent, for: .normal)
+            oldButton.setTitleColor(.gray, for: .normal)
+        case oldButton:
+            recentButton.setTitleColor(.gray, for: .normal)
+            oldButton.setTitleColor(.accent, for: .normal)
+        default:
+            break
+        }
+    }
+    
 }
 
 // MARK: - Extension Table View
