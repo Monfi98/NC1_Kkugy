@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		352D6F9D2BD038400078AA7A /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352D6F9C2BD038400078AA7A /* UIColorExtensions.swift */; };
 		354D40EC2BCFBBA3004C1DD6 /* SummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354D40EB2BCFBBA3004C1DD6 /* SummaryCell.swift */; };
 		35A478792BC67A4E002E3E0D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A478782BC67A4E002E3E0D /* AppDelegate.swift */; };
 		35A4787B2BC67A4E002E3E0D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A4787A2BC67A4E002E3E0D /* SceneDelegate.swift */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		30E10027099675FE8A4873BE /* Pods-Kkugy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kkugy.release.xcconfig"; path = "Target Support Files/Pods-Kkugy/Pods-Kkugy.release.xcconfig"; sourceTree = "<group>"; };
+		352D6F9C2BD038400078AA7A /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		354D40EB2BCFBBA3004C1DD6 /* SummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCell.swift; sourceTree = "<group>"; };
 		35A478752BC67A4E002E3E0D /* Kkugy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kkugy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35A478782BC67A4E002E3E0D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				35D3E5692BC7A38500487F7C /* UIViewExtensions.swift */,
+				352D6F9C2BD038400078AA7A /* UIColorExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				35D3E5722BC8076D00487F7C /* DetailViewController.swift in Sources */,
 				35B4E7CB2BCD35CE00D8B608 /* NetworkManager.swift in Sources */,
 				35B4E7D32BCE316200D8B608 /* ChatRoomCell.swift in Sources */,
+				352D6F9D2BD038400078AA7A /* UIColorExtensions.swift in Sources */,
 				35D3E5702BC8070600487F7C /* ChatViewController.swift in Sources */,
 				35A478942BC68AB9002E3E0D /* SummaryViewController.swift in Sources */,
 				35B4E7A42BCA059F00D8B608 /* MessageModels.swift in Sources */,

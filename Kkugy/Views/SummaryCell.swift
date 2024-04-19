@@ -13,6 +13,8 @@ class SummaryCell: UITableViewCell {
     private let detailLabel = UILabel()
     private let dateLabel = UILabel()
     
+    private let gradientLayer = CAGradientLayer()
+    
     private var dateLeftConstraint: NSLayoutConstraint!
     private var dateRightConstraint: NSLayoutConstraint!
     
@@ -24,6 +26,7 @@ class SummaryCell: UITableViewCell {
         setupViews()
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -31,6 +34,11 @@ class SummaryCell: UITableViewCell {
     private func setupViews() {
         backgroundCardView.translatesAutoresizingMaskIntoConstraints = false
         backgroundCardView.backgroundColor = .accent
+        //backgroundCardView.layer.masksToBounds = true
+        backgroundCardView.layer.shadowColor = UIColor.black.cgColor
+        backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        backgroundCardView.layer.shadowRadius = 4
+        backgroundCardView.layer.shadowOpacity = 0.1
         backgroundCardView.layer.cornerRadius = 10
         
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -40,6 +48,7 @@ class SummaryCell: UITableViewCell {
         dateLabel.textColor = .white
         
         contentView.addSubview(backgroundCardView)
+
         
         NSLayoutConstraint.activate([
             backgroundCardView.heightAnchor.constraint(equalToConstant: 140),
@@ -54,6 +63,11 @@ class SummaryCell: UITableViewCell {
         rightConstraint = backgroundCardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        gradientLayer.frame = backgroundCardView.bounds
+    }
+    
     func configure(date: Date, indexPath: IndexPath) {
         dateLabel.text = formatDate(date)
         
@@ -66,6 +80,7 @@ class SummaryCell: UITableViewCell {
         }
     }
     
+    
     private func formatDate(_ date: Date?) -> String {
         guard let date = date else { return "No Date" }
         let formatter = DateFormatter()
@@ -73,5 +88,4 @@ class SummaryCell: UITableViewCell {
         formatter.locale = Locale(identifier: "ko_KR")
         return formatter.string(from: date)
     }
-    
 }

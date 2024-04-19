@@ -287,4 +287,26 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
         // cell.selectionStyle = .none
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true 
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let chatRoomToDelete = chatRooms[indexPath.row]
+            context.delete(chatRoomToDelete)
+            chatRooms.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            do {
+                try context.save()
+            } catch {
+                print("Failed to delete chat room: \(error)")
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
 }

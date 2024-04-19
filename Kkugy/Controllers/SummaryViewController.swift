@@ -112,6 +112,28 @@ extension SummaryViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true  // Allow all rows to be editable
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Handle deletion logic here, such as removing the data from CoreData and updating the tableView
+            let summaryToDelete = summarys[indexPath.row]
+            context.delete(summaryToDelete)
+            summarys.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            // Save changes in CoreData
+            do {
+                try context.save()
+                fetchSummarys() // Optionally refetch data if needed
+            } catch {
+                print("Error deleting summary: \(error)")
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let detailVC = storyboard.instantiateViewController(withIdentifier: "DetailVC") as? DetailViewController {
